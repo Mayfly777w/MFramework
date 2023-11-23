@@ -34,7 +34,7 @@ public class PoolMgr : MonoSingleton<PoolMgr>
         }
         else
         {
-            return ResMgr.Instance.Load<GameObject>(name);
+            return Instantiate(ResMgr.Instance.Load<GameObject>(name));
         }
     }
 
