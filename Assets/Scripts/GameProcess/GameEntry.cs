@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 /// <summary>
 /// Blog:AFoolZWT.github.io
 /// EMail:848832649@qq.com
@@ -20,16 +21,9 @@ public class GameEntry : MonoBehaviour
         {
             Init();
         }
-    }
 
-    private void Update()
-    {
-        //test();
-    }
-
-    private void test()
-    {
-
+        //SceneManager.LoadScene("");
+        UIMgr.Instance.OpenView<TestWindows>();
     }
 
     private void Init()
@@ -44,9 +38,10 @@ public class GameEntry : MonoBehaviour
     {
         ResMgr.Instance.Init();
         CfgMgr.Instance.Init();
-        UIMgr.Instance.Init();
-        PoolMgr.Instance.Init();
         TimerMgr.Instance.Init();
+        PoolMgr.Instance.Init();
         AudioMgr.Instance.Init();
+        UIMgr.Instance.Init();
+        EventMgr.Instance.Init();
     }
 }

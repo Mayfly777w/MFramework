@@ -4,9 +4,9 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// 绐楀彛鍩虹被
+/// 窗口基类
 /// </summary>
-public class BaseWnd : MonoBehaviour
+public class WindowsBase : MonoBehaviour
 {
     public virtual void Init()
     {

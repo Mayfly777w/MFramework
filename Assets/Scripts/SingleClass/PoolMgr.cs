@@ -52,7 +52,8 @@ public class PoolMgr : MonoSingleton<PoolMgr>
         else//如果没有这个池
         {
             Pool pool = new Pool(name);//新建池
-            pool.Enqueue(gameObject);
+            poolDic[name] = pool;
+            poolDic[name].Enqueue(gameObject);
         }
     }
 }

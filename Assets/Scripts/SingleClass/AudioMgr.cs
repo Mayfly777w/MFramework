@@ -2,22 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class AAA : MonoSingleton<AudioMgr>
+{
+    public void Fun()
+    {
+
+    }
+}
+
 /// <summary>
 /// EMail:2123344255@qq.com
-/// Time:2023/6/15
+/// Time:2023/11/16
 /// Des：声音管理类
 /// </summary>
-public class AudioMgr : MonoSingleton<AudioMgr>
+public class AudioMgr : AAA
 {
     /// <summary>
-    /// 背景音乐播放器（通过检查器赋值）
+    /// 背景音乐播放器
     /// </summary>
-    public AudioSource music;
+    private AudioSource music;
 
     /// <summary>
-    /// 音效播放器（通过检查器赋值）
+    /// 音效播放器
     /// </summary>
-    public GameObject sound;
+    private GameObject sound;
 
     /// <summary>
     /// 音效播放完成队列
@@ -42,8 +50,24 @@ public class AudioMgr : MonoSingleton<AudioMgr>
     public override void Init()
     {
         base.Init();
+
+        InitChildren();
+
         endSoundQueue = new Queue<AudioSource>();
         playingSoundList = new List<AudioSource>();
+    }
+
+    public void InitChildren()
+    {
+        GameObject musicGameobject = new GameObject("Music");
+        music = musicGameobject.AddComponent<AudioSource>();
+        music.loop = true;
+        musicGameobject.transform.SetParent(transform);
+
+        sound = new GameObject("Sound");
+        AudioSource soundAudioSource = sound.AddComponent<AudioSource>();
+        soundAudioSource.loop = false;
+        sound.transform.SetParent(transform);
     }
 
     /// <summary>
@@ -77,10 +101,10 @@ public class AudioMgr : MonoSingleton<AudioMgr>
         audioSource.clip = ResMgr.Instance.Load<AudioClip>(name);
         audioSource.volume = soundVolume;
         audioSource.Play();
-        TimerMgr.Instance.SetTimer(audioSource.clip.length, false, 1, () =>
+        TimerMgr.Instance.SetTimer(audioSource.clip.length, () =>
          {
              StopSound(audioSource);
-         });
+         }, false);
     }
 
     /// <summary>

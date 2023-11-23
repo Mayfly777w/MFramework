@@ -43,7 +43,7 @@ public class TimerMgr : MonoSingleton<TimerMgr>
     /// <param name="unscaled"></param>
     /// <param name="count"></param>
     /// <param name="action"></param>
-    public void SetTimer(float duration, bool unscaled, int count, Action action)
+    public void SetTimer(float duration, Action action, bool unscaled = true, int count = 1)
     {
         Timer timer;
         if (endTimersQueue.Count > 0)

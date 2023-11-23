@@ -22,8 +22,21 @@ public class CfgMgr : Singleton<CfgMgr>
 
     private JSONNode Loader(string name)
     {
-        TextAsset textAsset = ResMgr.Instance.Load<TextAsset>(name);
-        string jsonContent = textAsset.text;
-        return JSON.Parse(jsonContent);
+        try
+        {
+            TextAsset textAsset = ResMgr.Instance.Load<TextAsset>(name);
+            string jsonContent = textAsset.text;
+            return JSON.Parse(jsonContent);
+        }
+        catch
+        {
+            Debug.LogError("是否未给配置文件启用Addressable或其名称错误（Addressable中配置文件的名称应为配置文件的文件名本身）");
+            throw;
+        }
+    }
+
+    public Test GetTest(int id)
+    {
+        return TABLES.TbTest.Get(id);
     }
 }

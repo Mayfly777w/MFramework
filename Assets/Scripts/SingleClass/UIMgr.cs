@@ -2,15 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 窗口管理类
 /// </summary>
 public class UIMgr : MonoSingleton<UIMgr>
 {
-    public Transform Canvas;
-
-    private const string assetPath = "Wnd/";
+    private Transform Canvas;
 
     private Dictionary<string, GameObject> uiGameObjectDic = new Dictionary<string, GameObject>();
     private Dictionary<string, object> uiScriptsDic = new Dictionary<string, object>();
@@ -18,6 +17,15 @@ public class UIMgr : MonoSingleton<UIMgr>
     public override void Init()
     {
         base.Init();
+
+        GameObject canvasObj = new GameObject("Canvas");
+        this.Canvas = canvasObj.transform;
+        canvasObj.transform.SetParent(this.transform);
+
+        Canvas canvas = canvasObj.AddComponent<Canvas>();
+        canvasObj.AddComponent<CanvasScaler>();
+        canvasObj.AddComponent<GraphicRaycaster>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
     }
 
     /// <summary>
@@ -28,10 +36,11 @@ public class UIMgr : MonoSingleton<UIMgr>
     public void OpenView<T>(params object[] parameters)
     {
         string uiName = typeof(T).Name;
-        BaseWnd baseWnd = this.LoadViewAsset<T>(uiName);
+        WindowsBase baseWnd = this.LoadViewAsset<T>(uiName);
         baseWnd.OnShow(parameters);
         GameObject uiObj = baseWnd.gameObject;
         RectTransform rectTransform = uiObj.GetComponent<RectTransform>();
+        if (rectTransform == null) { Debug.LogError("UI窗口没有RectTransform组件"); return; }
         rectTransform.offsetMin = Vector2.zero;
         rectTransform.offsetMax = Vector2.zero;
         uiObj.SetActive(true);
@@ -47,7 +56,7 @@ public class UIMgr : MonoSingleton<UIMgr>
         if (uiGameObjectDic.ContainsKey(uiName) && uiGameObjectDic[uiName] != null)
         {
             GameObject uiObj = uiGameObjectDic[uiName];
-            BaseWnd baseWnd = uiObj.GetComponent<BaseWnd>();
+            WindowsBase baseWnd = uiObj.GetComponent<WindowsBase>();
             baseWnd.Close();
             baseWnd.gameObject.SetActive(false);
         }
@@ -58,22 +67,21 @@ public class UIMgr : MonoSingleton<UIMgr>
     /// </summary>
     /// <param name="uiName"></param>
     /// <returns></returns>
-    private BaseWnd LoadViewAsset<T>(string uiName)
+    private WindowsBase LoadViewAsset<T>(string uiName)
     {
         GameObject uiObj;
-        BaseWnd baseWnd;
+        WindowsBase baseWnd;
         if (uiGameObjectDic.ContainsKey(uiName) && uiGameObjectDic[uiName] != null)//如果已经加载过则直接返回字典中的值，否则初始化
         {
             uiObj = uiGameObjectDic[uiName];
-            baseWnd = uiObj.GetComponent<BaseWnd>();
+            baseWnd = uiObj.GetComponent<WindowsBase>();
         }
         else
         {
-            string resPath = assetPath + uiName;
-            uiObj = Instantiate(Resources.Load<GameObject>(resPath));
+            uiObj = Instantiate(ResMgr.Instance.Load<GameObject>(uiName));
             uiGameObjectDic.Add(uiName, uiObj);
             uiScriptsDic.Add(uiName, typeof(T));
-            baseWnd = uiObj.GetComponent<BaseWnd>();
+            baseWnd = uiObj.GetComponent<WindowsBase>();
             baseWnd.Init();
         }
         uiObj.transform.SetParent(Canvas);
@@ -96,7 +104,7 @@ public class UIMgr : MonoSingleton<UIMgr>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T GetUIScript<T>() where T : BaseWnd
+    public T GetUIScript<T>() where T : WindowsBase
     {
         return uiScriptsDic[typeof(T).ToString()] as T;
     }

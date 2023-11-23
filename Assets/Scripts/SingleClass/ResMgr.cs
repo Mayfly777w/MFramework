@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using SimpleJSON;
 
 /// <summary>
 /// Email:2123344255@qq.com
@@ -42,7 +40,7 @@ public class ResMgr : MonoSingleton<ResMgr>
 
             if (asset == null)
             {
-                Debug.Log("资源加载失败");
+                Debug.Log($"资源加载失败：{name}");
                 return null;
             }
 
@@ -81,7 +79,7 @@ public class ResMgr : MonoSingleton<ResMgr>
             return handle.Result;
         }
 
-        Debug.Log("资源加载失败");
+        Debug.Log($"资源加载失败：{name}");
         return null;
     }
 

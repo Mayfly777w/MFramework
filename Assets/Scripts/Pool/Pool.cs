@@ -41,7 +41,7 @@ public class Pool
         GameObject gameObject = queue.Dequeue();
         gameObject.transform.SetParent(null);
         gameObject.SetActive(true);
-        return queue.Dequeue();
+        return gameObject;
     }
 
     /// <summary>
@@ -52,6 +52,7 @@ public class Pool
     {
         gameObject.SetActive(false);
         gameObject.transform.SetParent(transform);
+        gameObject.transform.position = transform.position;
         queue.Enqueue(gameObject);
     }
 }

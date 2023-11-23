@@ -20,6 +20,7 @@ public class FSM
         string name = state.GetType().Name;
         if (stateDic.ContainsKey(name)) return;
 
+        state.Init(owner);
         stateDic.Add(name, state);
     }
 

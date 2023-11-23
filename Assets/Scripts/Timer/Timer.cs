@@ -70,7 +70,7 @@ public class Timer
         this.action = action;
         this.count = count;
         this.unscaled = unscaled;
-        this.waitTime = (unscaled ? Time.time : Time.unscaledTime) + duration;
+        this.waitTime = (unscaled ? Time.time : Time.unscaledTime) + duration;//在开始就在等待时间中增加了当前时间
 
         this.state = TimerState.Run;
     }
