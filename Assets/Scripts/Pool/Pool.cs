@@ -29,7 +29,10 @@ public class Pool
     /// </summary>
     public Pool(string name)
     {
-        this.transform = new GameObject(name + "³Ø").transform;
+        GameObject objPool = new GameObject(name + "³Ø");
+        objPool.transform.SetParent(PoolMgr.Instance.transform);
+        this.transform = objPool.transform;
+        this.queue = new Queue<GameObject>();
     }
 
     /// <summary>
