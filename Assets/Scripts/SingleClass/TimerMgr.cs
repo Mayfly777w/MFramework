@@ -11,11 +11,6 @@ using UnityEngine;
 public class TimerMgr : MonoSingleton<TimerMgr>
 {
     /// <summary>
-    /// 已完成的计时器队列
-    /// </summary>
-    private Queue<Timer> endTimersQueue;
-
-    /// <summary>
     /// 执行中的计时器列表
     /// </summary>
     private List<Timer> runningTimersList;
@@ -24,7 +19,6 @@ public class TimerMgr : MonoSingleton<TimerMgr>
     {
         base.Init();
 
-        endTimersQueue = new Queue<Timer>();
         runningTimersList = new List<Timer>();
     }
 
@@ -45,28 +39,31 @@ public class TimerMgr : MonoSingleton<TimerMgr>
     /// <param name="action"></param>
     public void SetTimer(float duration, Action action, bool unscaled = true, int count = 1)
     {
-        Timer timer;
-        if (endTimersQueue.Count > 0)
-        {
-            timer = endTimersQueue.Dequeue();
-        }
-        else
-        {
-            timer = new Timer();
-        }
+        Timer timer = PoolMgr.Instance.GetObj<Timer>();
 
-        timer.Open(duration, unscaled, count, action);
+        timer.Open(duration, action, unscaled, count);
         runningTimersList.Add(timer);
     }
 
     /// <summary>
-    /// 推入计时器
+    /// 手动推入计时器
     /// </summary>
-    public void Push(Timer timer)
+    /// <param name="timer"></param>
+    public void PushTimer(Timer timer)
+    {
+        if (!runningTimersList.Contains(timer))
+        {
+            runningTimersList.Add(timer);
+        }
+    }
+
+    /// <summary>
+    /// 移除计时器
+    /// </summary>
+    public void RemoveTimer(Timer timer)
     {
         if (runningTimersList.Contains(timer))
         {
-            endTimersQueue.Enqueue(timer);
             runningTimersList.Remove(timer);
         }
     }
