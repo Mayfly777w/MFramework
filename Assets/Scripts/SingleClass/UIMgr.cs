@@ -18,6 +18,11 @@ public class UIMgr : MonoSingleton<UIMgr>
     {
         base.Init();
 
+        InitChildren();
+    }
+
+    public void InitChildren()
+    {
         GameObject canvasObj = new GameObject("Canvas");
         this.Canvas = canvasObj.transform;
         canvasObj.transform.SetParent(this.transform);
