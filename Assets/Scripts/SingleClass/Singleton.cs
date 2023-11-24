@@ -17,7 +17,8 @@ public class Singleton<T> where T : Singleton<T>,new()
         {
             if (instance == null)
             {
-                instance = new T();                
+                instance = new T();
+                instance.Init();
             }
             return instance;
         }
@@ -54,7 +55,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>//注意此
             {
                 //如果创建对象，则会在创建时调用其身上脚本的Awake即调用T的Awake(T的Awake实际上是继承的父类的）
                 //所以此时无需为instance赋值，其会在Awake中赋值，自然也会初始化所以无需init()
-                new GameObject(typeof(T).Name).AddComponent<T>();
+                new GameObject(typeof(T).Name).AddComponent<T>().Init();
             }
 
             return instance;
