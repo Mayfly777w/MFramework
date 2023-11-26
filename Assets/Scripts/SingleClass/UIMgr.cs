@@ -24,13 +24,13 @@ public class UIMgr : MonoSingleton<UIMgr>
     public void InitChildren()
     {
         GameObject canvasObj = new GameObject("Canvas");
-        this.Canvas = canvasObj.transform;
-        canvasObj.transform.SetParent(this.transform);
-
         Canvas canvas = canvasObj.AddComponent<Canvas>();
         canvasObj.AddComponent<CanvasScaler>();
         canvasObj.AddComponent<GraphicRaycaster>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+        canvasObj.transform.SetParent(this.transform);
+        this.Canvas = canvasObj.transform;
     }
 
     /// <summary>
@@ -90,6 +90,8 @@ public class UIMgr : MonoSingleton<UIMgr>
             baseWnd.Init();
         }
         uiObj.transform.SetParent(Canvas);
+        Debug.Log(Canvas);
+        Debug.Log(uiObj.transform.parent);
 
         return baseWnd;
     }
