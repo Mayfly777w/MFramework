@@ -22,23 +22,6 @@ public class PoolMgr : MonoSingleton<PoolMgr>
     }
 
     /// <summary>
-    /// 获取通用对象
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public T GetObj<T>() where T : class, new()
-    {
-        if (poolDic.ContainsKey(name) && poolDic[name].Count > 0)
-        {
-            return poolDic[name].Dequeue() as T;
-        }
-        else
-        {
-            return new T();
-        }
-    }
-
-    /// <summary>
     /// 获取游戏对象
     /// </summary>
     /// <param name="name"></param>
@@ -56,7 +39,7 @@ public class PoolMgr : MonoSingleton<PoolMgr>
     }
 
     /// <summary>
-    /// 推入对象
+    /// 推入游戏对象
     /// </summary>
     /// <param name="name"></param>
     /// <param name="gameObject"></param>

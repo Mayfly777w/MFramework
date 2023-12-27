@@ -11,6 +11,10 @@ using UnityEngine;
 public class TimerMgr : MonoSingleton<TimerMgr>
 {
     /// <summary>
+    /// 存储已经完成的计时器
+    /// </summary>
+    private Queue<Timer> queues;
+    /// <summary>
     /// 执行中的计时器列表
     /// </summary>
     private List<Timer> runningTimersList;
@@ -18,7 +22,7 @@ public class TimerMgr : MonoSingleton<TimerMgr>
     public override void Init()
     {
         base.Init();
-
+        queues = new Queue<Timer>();
         runningTimersList = new List<Timer>();
     }
 
@@ -39,7 +43,10 @@ public class TimerMgr : MonoSingleton<TimerMgr>
     /// <param name="action"></param>
     public void SetTimer(float duration, Action action, bool unscaled = true, int count = 1)
     {
-        Timer timer = PoolMgr.Instance.GetObj<Timer>();
+        if (!queues.TryDequeue(out Timer timer))
+        {
+            timer = new Timer();
+        }
 
         timer.Open(duration, action, unscaled, count);
         runningTimersList.Add(timer);
@@ -65,6 +72,7 @@ public class TimerMgr : MonoSingleton<TimerMgr>
         if (runningTimersList.Contains(timer))
         {
             runningTimersList.Remove(timer);
+            queues.Enqueue(timer);
         }
     }
 }

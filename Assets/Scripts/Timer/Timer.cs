@@ -64,7 +64,7 @@ public class Timer
     /// <summary>
     /// ¿ªÆô¼ÆÊ±Æ÷
     /// </summary>
-    public void Open(float duration, bool unscaled, int count, Action action)
+    public void Open(float duration, Action action, bool unscaled, int count)
     {
         this.duration = duration;
         this.action = action;
@@ -121,6 +121,6 @@ public class Timer
     public void Colse()
     {
         state = TimerState.Stop;
-        TimerMgr.Instance.Push(this);
+        TimerMgr.Instance.RemoveTimer(this);
     }
 }

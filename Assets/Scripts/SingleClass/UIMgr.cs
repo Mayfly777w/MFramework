@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
@@ -12,7 +13,7 @@ public class UIMgr : MonoSingleton<UIMgr>
     private Transform Canvas;
 
     private Dictionary<string, GameObject> uiGameObjectDic = new Dictionary<string, GameObject>();
-    private Dictionary<string, object> uiScriptsDic = new Dictionary<string, object>();
+    //private Dictionary<string, WindowsBase> uiScriptsDic = new Dictionary<string, WindowsBase>();
 
     public override void Init()
     {
@@ -28,9 +29,13 @@ public class UIMgr : MonoSingleton<UIMgr>
         canvasObj.AddComponent<CanvasScaler>();
         canvasObj.AddComponent<GraphicRaycaster>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-
         canvasObj.transform.SetParent(this.transform);
         this.Canvas = canvasObj.transform;
+
+        GameObject eventSystem = new GameObject("EventSystem");
+        eventSystem.AddComponent<EventSystem>();
+        eventSystem.AddComponent<StandaloneInputModule>();
+        eventSystem.transform.SetParent(this.transform);
     }
 
     /// <summary>
@@ -84,9 +89,9 @@ public class UIMgr : MonoSingleton<UIMgr>
         else
         {
             uiObj = Instantiate(ResMgr.Instance.Load<GameObject>(uiName));
-            uiGameObjectDic.Add(uiName, uiObj);
-            uiScriptsDic.Add(uiName, typeof(T));
             baseWnd = uiObj.GetComponent<WindowsBase>();
+            uiGameObjectDic.Add(uiName, uiObj);
+            //uiScriptsDic.Add(uiName, baseWnd);
             baseWnd.Init();
         }
         uiObj.transform.SetParent(Canvas);
@@ -107,12 +112,12 @@ public class UIMgr : MonoSingleton<UIMgr>
     }
 
     /// <summary>
-    /// 获取UI的脚本
+    /// 获取UI的脚本（方便直接调用UI脚本中的一些方法）
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T GetUIScript<T>() where T : WindowsBase
-    {
-        return uiScriptsDic[typeof(T).ToString()] as T;
-    }
+    //public T GetUIScript<T>() where T : WindowsBase
+    //{
+    //    return uiScriptsDic[typeof(T).ToString()] as T;
+    //}
 }

@@ -2,20 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AAA : MonoSingleton<AudioMgr>
-{
-    public void Fun()
-    {
-
-    }
-}
-
 /// <summary>
 /// EMail:2123344255@qq.com
 /// Time:2023/11/16
 /// Des：声音管理类
 /// </summary>
-public class AudioMgr : AAA
+public class AudioMgr : MonoSingleton<AudioMgr>
 {
     /// <summary>
     /// 背景音乐播放器
