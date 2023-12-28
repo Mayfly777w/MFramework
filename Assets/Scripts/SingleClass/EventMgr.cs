@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EventType
+{
+    PressKeyA,
+    PressKeyB,
+}
+
 /// <summary>
 /// 事件管理类
 /// </summary>
@@ -78,9 +84,3 @@ public class EventMgr : MonoSingleton<EventMgr>
 }
 
 public delegate void EventHandler(params object[] param);
-
-public enum EventType
-{
-    PressKeyA,
-    PressKeyB
-}
