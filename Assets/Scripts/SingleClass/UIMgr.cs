@@ -43,7 +43,7 @@ public class UIMgr : MonoSingleton<UIMgr>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="parameters"></param>
-    public void OpenView<T>(params object[] parameters)
+    public void OpenView<T>(params object[] parameters) where T : WindowsBase
     {
         string uiName = typeof(T).Name;
         WindowsBase baseWnd = this.LoadViewAsset<T>(uiName);
@@ -60,7 +60,7 @@ public class UIMgr : MonoSingleton<UIMgr>
     /// 关闭窗口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public void CloseView<T>()
+    public void CloseView<T>() where T : WindowsBase
     {
         string uiName = typeof(T).Name;
         if (uiGameObjectDic.ContainsKey(uiName) && uiGameObjectDic[uiName] != null)
