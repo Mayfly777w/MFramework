@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Email:2123344255@qq.com
-/// Time:2023/6/15
-/// Des：对象池管理类
+/// 对象池管理类
 /// </summary>
 public class PoolMgr : MonoSingleton<PoolMgr>
 {

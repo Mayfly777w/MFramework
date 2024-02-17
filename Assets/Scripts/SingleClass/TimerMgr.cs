@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Email:2123344255@qq.com
-/// Time:2023/6/16
-/// Des：计时器管理器
+/// 计时器管理器
 /// </summary>
 public class TimerMgr : MonoSingleton<TimerMgr>
 {

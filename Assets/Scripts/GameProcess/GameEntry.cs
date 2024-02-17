@@ -1,14 +1,11 @@
-using cfg.MFramework;
+using BayatGames.SaveGameFree;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Blog:AFoolZWT.github.io
-/// EMail:848832649@qq.com
-/// Time:2023/02/17
-/// Des：游戏入口
+/// 游戏入口
 /// </summary>
 
 public class GameEntry : MonoBehaviour
@@ -21,9 +18,6 @@ public class GameEntry : MonoBehaviour
         {
             Init();
         }
-
-        //SceneManager.LoadScene("");
-        UIMgr.Instance.OpenView<TestWindows>();
     }
 
     private void Init()
@@ -38,6 +32,7 @@ public class GameEntry : MonoBehaviour
     {
         ResMgr.Instance.Init();
         CfgMgr.Instance.Init();
+        DataMgr.Instance.Init();
         TimerMgr.Instance.Init();
         PoolMgr.Instance.Init();
         AudioMgr.Instance.Init();

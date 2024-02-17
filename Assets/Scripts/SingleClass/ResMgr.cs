@@ -5,9 +5,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 /// <summary>
-/// Email:2123344255@qq.com
-/// Time:2023/6/13
-/// Des：资源管理类
+/// 资源管理类
 /// </summary>
 public class ResMgr : MonoSingleton<ResMgr>
 {

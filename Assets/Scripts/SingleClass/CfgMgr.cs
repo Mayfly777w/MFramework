@@ -1,5 +1,4 @@
 using cfg;
-using cfg.MFramework;
 using SimpleJSON;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +6,7 @@ using System.IO;
 using UnityEngine;
 
 /// <summary>
-/// Email:2123344255@qq.com
-/// Time:2023/6/15
-/// Des：配置管理类
+/// 配置管理类
 /// </summary>
 public class CfgMgr : Singleton<CfgMgr>
 {
@@ -35,8 +32,13 @@ public class CfgMgr : Singleton<CfgMgr>
         }
     }
 
-    public Test GetTest(int id)
+    public cfg.Test GetTest(int id)
     {
         return TABLES.TbTest.Get(id);
+    }
+
+    public cfg.Item GetItem(int id)
+    {
+        return TABLES.TbItem.Get(id);
     }
 }

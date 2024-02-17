@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// сно╥╦Ы╡©
+/// </summary>
 public class GameRoot : MonoSingleton<GameRoot>
 {
     public override void Init()

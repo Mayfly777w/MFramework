@@ -31,11 +31,6 @@ public class UIMgr : MonoSingleton<UIMgr>
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvasObj.transform.SetParent(this.transform);
         this.Canvas = canvasObj.transform;
-
-        GameObject eventSystem = new GameObject("EventSystem");
-        eventSystem.AddComponent<EventSystem>();
-        eventSystem.AddComponent<StandaloneInputModule>();
-        eventSystem.transform.SetParent(this.transform);
     }
 
     /// <summary>

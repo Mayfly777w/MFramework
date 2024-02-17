@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// EMail:2123344255@qq.com
-/// Time:2023/11/16
-/// Des：声音管理类
+/// 声音管理类
 /// </summary>
 public class AudioMgr : MonoSingleton<AudioMgr>
 {
@@ -49,6 +47,9 @@ public class AudioMgr : MonoSingleton<AudioMgr>
         playingSoundList = new List<AudioSource>();
     }
 
+    /// <summary>
+    /// 初始化子类
+    /// </summary>
     public void InitChildren()
     {
         GameObject musicGameobject = new GameObject("Music");
