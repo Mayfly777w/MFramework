@@ -5,9 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 游戏入口
+/// 娓告垙鍏ュ彛
 /// </summary>
-
 public class GameEntry : MonoBehaviour
 {
     private bool Inited = false;

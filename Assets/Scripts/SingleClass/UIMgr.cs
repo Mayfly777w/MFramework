@@ -13,7 +13,7 @@ public class UIMgr : MonoSingleton<UIMgr>
     private Transform Canvas;
 
     private Dictionary<string, GameObject> uiGameObjectDic = new Dictionary<string, GameObject>();
-    //private Dictionary<string, WindowsBase> uiScriptsDic = new Dictionary<string, WindowsBase>();
+    private Dictionary<string, WindowsBase> uiScriptsDic = new Dictionary<string, WindowsBase>();
 
     public override void Init()
     {
@@ -31,6 +31,11 @@ public class UIMgr : MonoSingleton<UIMgr>
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvasObj.transform.SetParent(this.transform);
         this.Canvas = canvasObj.transform;
+
+        //GameObject eventSystem = new("EventSystem");
+        //eventSystem.AddComponent<EventSystem>();
+        //eventSystem.AddComponent<StandaloneInputModule>();
+        //eventSystem.transform.SetParent(this.transform);
     }
 
     /// <summary>
@@ -44,10 +49,10 @@ public class UIMgr : MonoSingleton<UIMgr>
         WindowsBase baseWnd = this.LoadViewAsset<T>(uiName);
         baseWnd.OnShow(parameters);
         GameObject uiObj = baseWnd.gameObject;
-        RectTransform rectTransform = uiObj.GetComponent<RectTransform>();
-        if (rectTransform == null) { Debug.LogError("UI窗口没有RectTransform组件"); return; }
+        if (!uiObj.TryGetComponent<RectTransform>(out var rectTransform)) { Debug.LogError("UI窗口没有RectTransform组件"); return; }
         rectTransform.offsetMin = Vector2.zero;
         rectTransform.offsetMax = Vector2.zero;
+        uiObj.transform.SetAsLastSibling();
         uiObj.SetActive(true);
     }
 
@@ -86,12 +91,10 @@ public class UIMgr : MonoSingleton<UIMgr>
             uiObj = Instantiate(ResMgr.Instance.Load<GameObject>(uiName));
             baseWnd = uiObj.GetComponent<WindowsBase>();
             uiGameObjectDic.Add(uiName, uiObj);
-            //uiScriptsDic.Add(uiName, baseWnd);
+            uiScriptsDic.Add(uiName, baseWnd);
             baseWnd.Init();
         }
         uiObj.transform.SetParent(Canvas);
-        Debug.Log(Canvas);
-        Debug.Log(uiObj.transform.parent);
 
         return baseWnd;
     }
@@ -111,8 +114,8 @@ public class UIMgr : MonoSingleton<UIMgr>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    //public T GetUIScript<T>() where T : WindowsBase
-    //{
-    //    return uiScriptsDic[typeof(T).ToString()] as T;
-    //}
+    public T GetUIScript<T>() where T : WindowsBase
+    {
+        return uiScriptsDic[typeof(T).ToString()] as T;
+    }
 }
